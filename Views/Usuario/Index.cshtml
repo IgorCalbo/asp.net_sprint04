@@ -1,0 +1,80 @@
+﻿@model List<Usuario>
+
+@{
+    ViewData["Title"] = "Usuários";
+}
+
+<h1>Usuários</h1>
+
+<a asp-action="cadastrar">Cadastrar</a>
+
+<mensagem texto="@TempData["msg"]"></mensagem>
+
+<form class="form-inline mb-3">
+    <input type="text" name="nomeBusca" placeholder="Digite o nome" class="form-control mr-1" />
+    <select class="form-control mr-1" asp-items="@Html.GetEnumSelectList<Pressao>()" name="pressaoBusca">
+        <option>Pressão</option>
+    </select>
+    <input type="submit" value="Pesquisar" class="btn btn-primary" />
+</form>
+
+<table class="table">
+    <tr>
+        <td>Id</td>
+        <th>Nome</th>
+        <th>Celular</th>
+        <th>Email</th>
+        <th>Senha</th>
+        <th>Data Nascimento</th>
+        <th>Gênero</th>
+        <th>Pressão do Chuveiro</th>
+        <th>Temperatura do Chuveiro (°C)</th>
+        <th>Duração do Banho (minutos)</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.UsuarioId</td>
+            <td>@item.Nome</td>
+            <td>@item.Celular</td>
+            <td>@item.Email</td>
+            <td>@item.Senha</td>
+            <td>@item.DataNascimento.ToShortDateString()</td>
+            <td>@item.Genero</td>
+            <td>@item.Pressao</td>
+            <th>@item.Temperatura</th>
+            <th>@item.Duracao</th>
+            <td>
+                <a asp-action="editar" asp-route-id="@item.UsuarioId" class="btn btn-sm btn-secondary">Editar</a>
+                <button onclick="idUsuario.value = @item.UsuarioId" type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModal">
+                    Excluir
+                </button>
+            </td>
+        </tr>
+
+    }
+</table>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirmação</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Realmente deseja excluir o usuário?
+            </div>
+            <div class="modal-footer">
+                <form asp-action="remover">
+                    <input type="hidden" name="id" id="idUsuario" />
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+                    <button type="submit" class="btn btn-danger">Sim</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

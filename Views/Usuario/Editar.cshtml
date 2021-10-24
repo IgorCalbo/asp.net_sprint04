@@ -1,0 +1,14 @@
+﻿@model Usuario
+
+@{
+    ViewData["Title"] = "Editar";
+}
+
+<h1>Editar Usuário</h1>
+
+<form asp-action="editar">
+    <input asp-for="UsuarioId"/>
+    <partial name="_Form"/>
+    <input type="submit" value="Editar" class="btn btn-primary"/>
+</form>
+
